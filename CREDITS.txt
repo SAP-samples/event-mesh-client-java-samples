@@ -1,0 +1,15 @@
+This program references the following third party open source or other free download components.
+The third party licensors of these components may provide additional license rights,
+terms and conditions and/or require certain notices as described below.
+
+Apache log4j (http://logging.apache.org/log4j/1.2/)
+Licensed under Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
+
+JUnit (http://www.junit.org/)
+Licensed under Common Public License - v 1.0 - http://junit.sourceforge.net/cpl-v10.html
+
+SLF4J (http://www.slf4j.org/)
+Licensed under MIT - http://www.slf4j.org/license.html
+
+Spring Framework (https://github.com/spring-projects/spring-framework)
+Licensed under Apache License, Version 2.0 - https://github.com/spring-projects/spring-framework/blob/master/src/docs/dist/license.txt

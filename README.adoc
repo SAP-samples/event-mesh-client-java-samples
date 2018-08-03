@@ -1,0 +1,19 @@
+= Messaging Client Java - Samples for Enterprise Messaging
+
+Messaging Client Java - Samples for Enterprise Messaging @SAP CP
+
+To run the samples a running `Enterprise Messaging Service @SAP CP` is required. +
+Further necessary configuration and settings are dependent on the specific sample and are documented there.
+
+== Basic Messaging via Java `main` application
+See in module `emjapi-samples-basic`.
+
+== Messaging via Spring based application deployed on SAP CP
+See in module `emjapi-samples-sapcp`.
+
+== More to come
+
+
+== License
+Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the _SAP SAMPLE CODE LICENSE AGREEMENT, v1.0-071618_ except as noted otherwise in the link:./LICENSE.txt[LICENSE file].

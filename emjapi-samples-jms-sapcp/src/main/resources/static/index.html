@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Sample for Enterprise Messaging Java API (emjapi)</title>
+        <script>
+        var emjapiRequest = null;
+        var REQUEST_TIMEOUT_SEC = 600;
+        function receiveMessages() {
+            if(emjapiRequest !== null) {
+              console.log("Abort running XMLHttpRequest...")
+              emjapiRequest.abort();
+              emjapiRequest = null;
+            }
+            var xmlhttp = new XMLHttpRequest();
+            emjapiRequest = xmlhttp;
+            xmlhttp.open("GET", "/messages");
+            xmlhttp.seenBytes = 0;
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState > 2) {
+                    var message = xmlhttp.responseText.substr(xmlhttp.seenBytes);
+                    console.log("Received message: " + message)
+                    document.getElementById("state").innerHTML = "Received messages and updated list...";
+                    // process message
+                    xmlhttp.seenBytes = xmlhttp.responseText.length;
+                    parsedMessage = JSON.parse(message);
+                    var list = document.getElementById("list");
+                    var li = document.createElement("li");
+                    var pre = document.createElement("pre");
+                    pre.innerHTML = JSON.stringify(parsedMessage, null, 2);
+                    li.appendChild(pre);
+                    list.insertBefore(li, list.childNodes[0]);
+                } else {
+                    console.log("Wrong state after GET: " + this.readyState)
+                }
+            };
+            // use global timeout in seconds (multiply for millisecond)
+            xmlhttp.timeout = REQUEST_TIMEOUT_SEC * 1000;
+            xmlhttp.ontimeout = function (e) {
+              // XMLHttpRequest timed out. Do something here.
+              document.getElementById("state").innerHTML = "Failed to receive messages subscribed (timed out)...";
+            };
+            //
+            document.getElementById("state").innerHTML = "Start receive messages (timeout=" + REQUEST_TIMEOUT_SEC + "seconds)..."
+            document.getElementById("list").innerHTML = '';
+            // send request
+            xmlhttp.send();
+        }
+        function unsubscribe() {
+          if(emjapiRequest !== null) {
+            console.log("Abort running XMLHttpRequest...")
+            emjapiRequest.abort();
+            emjapiRequest = null;
+          }
+          console.log("Unsubscribe...")
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("DELETE", "/messages");
+          xmlhttp.onreadystatechange = function () {
+            if (this.readyState <= 2) {
+              console.log("Wrong state after DELETE: " + this.readyState)
+            }
+          };
+          document.getElementById("state").innerHTML = "NOT subscribed..."
+          document.getElementById("startbutton").innerHTML = "Start listening..."
+          // send request
+          xmlhttp.send();
+        }
+        </script>
+    </head>
+
+    <body>
+        <div>
+            <h1>Sample for Enterprise Messaging Java API (emjapi)</h1>
+            <p id="state">Nothing requested</p>
+        </div>
+            <button id="startbutton" onclick="receiveMessages()">Receive available messages</button>
+        </div>
+        <div>
+            <h3>Received Messages:</h3>
+            <ul id="list"></ul>
+        </div>
+    </body>
+
+</html>

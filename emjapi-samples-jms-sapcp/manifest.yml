@@ -1,0 +1,27 @@
+---
+# Default Manifest with single input for sample
+applications:
+- name: emjapi-samples-jms-sapcp
+  memory: 768M
+  path: target/emjapi-samples-jms-sapcp.jar
+  random-route: false
+  services:
+    # This must point to an existing `enterprise messaging` service instance
+    # if service name gets changed this must also be changed in the `SAP_XBEM_BINDINGS` -> "service"
+    - emjapi-samples-sapcp
+  env:
+    SAP_XBEM_BINDINGS: >
+      {
+        "inputs": {
+          "in_queue": {
+            "service": "emjapi-samples-sapcp",
+            "address": "queue:EmJmsSampleInQueue"
+          }
+        },
+        "outputs": {
+          "out_queue": {
+            "service": "emjapi-samples-sapcp",
+            "address": "queue:EmJmsSampleOutQueue"
+          }
+        }
+      }

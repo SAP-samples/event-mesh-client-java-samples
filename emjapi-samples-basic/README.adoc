@@ -1,0 +1,205 @@
+= Messaging Client Java for Enterprise Messaging
+
+Sample Messaging Client Java (base Main Java method) for SAP Cloud Platform Enterprise Messaging.
+
+== Basic Messaging
+To run the samples a running `Enterprise Messaging Service @SAP CP` is required. +
+
+The basic messaging consists of a _MessageSender_ and a _MessageReceiver_ (both as a Java class with just a `main` method).
+
+To run the _Sender_ and/or _Receiver_ it is necessary that the credentials provided by the _Enterprise Messaging Service @SAP CP_
+are provided in the 'resources/credentials.json' (default credentials location).
+Additionally, the previously created queue name (which was set up in the Messaging Service Dashboard) must be provided here in sample code (see variable `queueName`).
+
+=== Build/Run from Command Line
+To build an executable Jar which can be run from the command line carry out the following steps:
+
+  . Check all _Prerequisites_ fulfilled (see section _Project Setup_ -> _Prerequisites_ below)
+  . Check out the maven project (e.g. `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`)
+  . Change to the basic module (`cd emjapi-samples-basic`)
+  . Run maven to build the Jar with `mvn clean package shade:shade`
+  . Make sure that the correct _Enterprise Messaging_ credentials are available (as Json file `credentials.json`)
+  . Make sure that a queue exists (e.g. with name `NameOfQueue`)
+  . Send messages via: `java -jar target/emjapi-samples-basic.jar send NameOfQueue credentials.json`
+  . Receive the previously send messages via: `java -jar target/emjapi-samples-basic.jar receive NameOfQueue credentials.json`
+
+== More Details
+
+=== Messaging Service Client Creation
+To create the _Messaging Service Client_ (as `MessagingService` object) the API provides support for the SAP Cloud Platform
+which can easily be used within the Cloud Foundry environment (requires the dependency to `emjapi-connector-sap-cp`).
+
+To make use of this in a local environment (as for this basic sample) the necessary credentials can be provided in a Json file
+and a manual instance creation of the `MessagingServiceProvider` and `MessagingServiceInfo`.
+Hence this is done automatically in the SAP Cloud Platform Cloud Foundry environment. For this sample the needed coding used by
+both (_Sender/Receiver_) main methods is extracted in the `MessagingServiceCloud` class and accessed via the
+static `initService(String filename):MessagingService` method.
+
+=== Sample Credentials
+The credentials are created during binding of an application to an _Enterprise Messaging Service Instance_
+or via creation of a _service key_ for a _Enterprise Messaging Service Instance_.
+
+To create a _service key_ the _CloudFoundry CLI_ can be used via:
+`cf csk enterprise-messaging-service-instance-name key-name -c '{"emname":"sample_application"}'`.
+
+After creation the _service key_ can be shown via:
+`cf service-key enterprise-messaging-service-instance-name key-name`
+
+The content shown looks like (all `<>` enclosed values are generated for each _account/space/app_):
+```json
+{
+  "messaging": [
+    {
+      "protocol": [
+        "amqp10ws"
+      ],
+      "broker": {
+        "type": "sapmgw",
+        "version": "1.0.0"
+      },
+      "oa2": {
+        "clientid": "<sb-clone-xbem-service-broker-space5937420a844651aee627fc1a8cd11e-clone!b298|xbem-service-broker-space!b298>",
+        "clientsecret": "<PrwpcNX8cmi/BOtgQNRX7LbfOzg=>",
+        "tokenendpoint": "<https://emjapi-samples-sapcp.cfapps.<region>.hana.ondemand.com/oauth/token>"
+      },
+      "uri": "<wss://emjapi-samples-sapcp.cfapps.<region>.hana.ondemand.com/protocols/amqp10ws>"
+    }
+  ],
+  "version": "1.0",
+  "xsappname": "<clone-xbem-service-broker-space5937420a844651aee627fc1a8cd11e-clone!b298|xbem-service-broker-space!b298>",
+  "serviceinstanceid": "<7e474112-affe-4cbb-992a-2492a2ca7259>"
+}
+```
+
+And must be provided as `resources/credentials.json` to be used for the samples.
+
+=== Sample Receiver
+
+.Setup Messaging Service
+Create binding to queue with name `NameOfQueue`.
+```
+String queueName = "NameOfQueue";
+MessagingBinding binding = MessagingBinding.with("receiver")
+  .queue(queueName) // 1)
+  .build();
+```
+
+  * 1) queue with given name must be created on message broker (Enterprise Messaging Service Instance) before the receiver gets started
+
+Create Messaging Service based on given credentials and bind to to queue with name `NameOfQueue` via previously created binding.
+```
+MessagingService messaging = MessagingServiceCloud.initService(credentialsFilename);
+MessagingEndpoint destination = messaging.bind(binding).build();
+```
+
+.Start for Receiving Messages
+```
+System.out.println("Start...");
+AtomicInteger counter = new AtomicInteger(0);
+destination.receive()
+  .peek(m -> System.out.println("Received message: " + counter.incrementAndGet() + " content: " + m.toString() ))
+  .map(m -> new String(m.getContent()))
+  .forEach(System.out::println);
+```
+
+
+=== Sample Sender
+
+.Setup Messaging Service
+Create binding to queue with name `NameOfQueue`.
+```
+String queueName = "NameOfQueue";
+MessagingBinding binding = MessagingBinding.with("sender")
+  .queue(queueName) // 1)
+  .build();
+```
+
+  * 1) queue with given name must be created on message broker before the sender gets started
+
+Create Messaging Service based on given credentials and bind to the queue with name `NameOfQueue` via previously created binding.
+```
+MessagingService messaging = MessagingServiceCloud.initService(credentialsFilename);
+MessagingEndpoint destination = messaging.bind(binding).build();
+```
+
+.Start Sending Messages
+```
+System.out.println("Start...");
+for (int i = 0; i < 10; i++) {
+  System.out.println("Send Message " + i);
+  destination.createMessage().setContent(("Message-" + i).getBytes()).send();
+}
+System.out.println("Close...");
+
+destination.close();
+```
+
+=== Local Environment Helper
+To initial the `MessagingService` we make use of the `MessagingEnvironment` in a local environment (as for this basic sample).
+This (small) part is extracted in the `MessagingServiceCommons` class because it is used by the `MainSender` and `MainReceiver`.
+The relevant code snippets are shown below (to be found in method `MessagingServiceCommons.initService(...)`).
+
+.Create Messaging Service Based on the Json Credentials Provided
+```
+// read credentials as json (CloudPlatform credentials)
+String json = JsonHelper.readContentFromResource(filename);
+// build the environment out of the credentials json (no further settings necessary here)
+MessagingEnvironment env = MessagingEnvironment.fromJson(json).build();
+// create the Messaging Service client instance based on the environmant
+// additional disable SSL verification and set the sender timeout
+return MessagingService.with(env)
+        .addSetting(MessagingService.Setting.SSL_NO_VERIFY.withValue(true))
+        .addSetting(MessagingService.Setting.SENDER_TIMEOUT_MS.withValue(10_000))
+        .create();
+```
+
+.Create Messaging Binding Based on Default Binding json Format
+It is also possible to create the `MessagingBinding` from a json format via:
+```
+MessagingBinding binding = MessagingBinding.fromJson(sapXbemBindingsJson);
+MessagingEndpoint inQueue = messaging.bind("in_queue").build();
+// MessagingEndpoint outQueue = messaging.bind("out_queue").build();
+```
+
+The above sample works in combination with the below json (as `sapXbemBindingsJson` value).
+```json
+{
+  "inputs": {
+    "in_queue": {
+      "address": "queue:EmJmsSampleInQueue"
+    }
+  },
+  "outputs": {
+    "out_queue": {
+      "address": "queue:EmJmsSampleOutQueue"
+    }
+  }
+}
+```
+
+== Project Setup
+
+=== Prerequisites
+
+  * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
+  * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
+  * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
+  * _SAP CP_ Account with _Enterprise Messaging Service_ available
+    ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
+    *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
+    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xess"}'`)
+    ** Created required queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
+
+=== Recommended
+
+  * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
+
+=== Steps to Start
+
+  . Clone the repository via `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`
+  . Change to project dir (`cd ./emjapi-samples-sapcp`) and build with maven (`mvn install`)
+  . Optional: Push to Cloud Foundry via `cf push` (*recommended to adopt the default `manifest.yml` accordingly*)
+
+== License
+Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the _SAP SAMPLE CODE LICENSE AGREEMENT, v1.0-071618_ except as noted otherwise in the link:../LICENSE.txt[LICENSE file].
