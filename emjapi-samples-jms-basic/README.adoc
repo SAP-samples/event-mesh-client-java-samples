@@ -1,7 +1,7 @@
 = SAP Enterprise Messaging JMS: Apache Qpid
 
 Sample application (plain Java) of how to use the Apache Qpid JMS client to send and receive messages via SAP Cloud Platorm Enterprise Messaging. +
-Tested _Messaging Client_ in version `1.7.2` (including _Apache Qpid JMS_ in version `0.32.0`) against SAP Cloud Platform Enterprise Messaging.
+Tested _Messaging Client_ in version `1.8.2` (including _Apache Qpid JMS_ in version `0.32.0`) against SAP Cloud Platform Enterprise Messaging.
 
 == JMS Extension
 
