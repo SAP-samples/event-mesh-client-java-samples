@@ -1,6 +1,8 @@
 = Messaging Client Java for Enterprise Messaging
+:toc:
 
 Sample Messaging Client Java (base Main Java method) for SAP Cloud Platform Enterprise Messaging.
+
 
 == Basic Messaging
 To run the samples a running `Enterprise Messaging Service @SAP CP` is required. +
@@ -199,6 +201,10 @@ The above sample works in combination with the below json (as `sapXbemBindingsJs
   . Clone the repository via `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`
   . Change to project dir (`cd ./emjapi-samples-sapcp`) and build with maven (`mvn install`)
   . Optional: Push to Cloud Foundry via `cf push` (*recommended to adopt the default `manifest.yml` accordingly*)
+
+== Support
+This project is _'as-is'_ with no support, no changes being made. +
+You are welcome to make changes to improve it but we are not available for questions or support of any kind.
 
 == License
 Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.

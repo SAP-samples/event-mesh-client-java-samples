@@ -1,4 +1,5 @@
 = SAP CP Application for Enterprise Messaging
+:toc:
 
 Sample Application for Enterprise Messaging based on Spring Web running on SAP Cloud Platform (@ CloudFoundry (with Enterprise Messaging Service)).
 
@@ -125,6 +126,9 @@ curl -X DELETE "https://<app-base-url>/messages"
   . Change to project dir (`cd ./xbem-emjapi-java-samples-jms-sapcp`) and build with maven (`mvn install`)
   . Optional: Push to Cloud Foundry via `cf push` (*recommended to adopt the default `manifest.yml` accordingly*)
 
+== Support
+This project is _'as-is'_ with no support, no changes being made. +
+You are welcome to make changes to improve it but we are not available for questions or support of any kind.
 
 == License
 Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.

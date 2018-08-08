@@ -1,4 +1,5 @@
 = SAP Enterprise Messaging JMS: Apache Qpid
+:toc:
 
 Sample application (plain Java) of how to use the Apache Qpid JMS client to send and receive messages via SAP Cloud Platorm Enterprise Messaging. +
 Tested _Messaging Client_ in version `1.8.2` (including _Apache Qpid JMS_ in version `0.32.0`) against SAP Cloud Platform Enterprise Messaging.
@@ -139,6 +140,10 @@ xbem.jms.topic.name=<created_topic_name>
   * link:https://github.com/apache/qpid-jms/tree/0.32.0/qpid-jms-docs[Qpid JMS Documentation (github)]
   * link:https://github.com/apache/qpid-jms[Qpid JMS Sample]
   * link:https://solacesamples.github.io/solace-samples-amqp-qpid-jms2/[Solace Support for JMS over AMQP]
+
+== Support
+This project is _'as-is'_ with no support, no changes being made. +
+You are welcome to make changes to improve it but we are not available for questions or support of any kind.
 
 
 == License

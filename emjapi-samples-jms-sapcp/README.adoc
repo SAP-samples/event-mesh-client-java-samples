@@ -1,9 +1,7 @@
 = SAP Enterprise Messaging JMS: SAP CP Application (via JMS)
+:toc:
 
 Sample application for SAP Cloud Platform Enterprise Messaging via JMS based on Spring Web running on SAP Cloud Platform in the Cloud Foundry environment (with the Enterprise Messaging Service)).
-
-[NOTE]
-**Sample is WIP**
 
 == JMS Extension
 
@@ -134,6 +132,10 @@ curl -X DELETE "https://<app-base-url>/messages"
   . Clone the repository via `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`
   . Change to project dir (`cd ./emjapi-samples-jms-sapcp`) and build with maven (`mvn install`)
   . Optional: Push to Cloud Foundry via `cf push` (*recommended to adopt the default `manifest.yml` accordingly*)
+
+== Support
+This project is _'as-is'_ with no support, no changes being made. +
+You are welcome to make changes to improve it but we are not available for questions or support of any kind.
 
 == License
 Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.
