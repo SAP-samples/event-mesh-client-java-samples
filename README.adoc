@@ -1,15 +1,32 @@
 = Messaging Client Java - Samples for Enterprise Messaging
+:toc:
 
-Messaging Client Java - Samples for Enterprise Messaging @SAP CP
+== Description
+Samples of how to use the Messaging Client (Java) for messaging via SAP Cloud Platform Enterprise Messaging in the Cloud Foundry environment.
 
+== Requirements
 To run the samples a running `Enterprise Messaging Service @SAP CP` is required. +
 Further necessary configuration and settings are dependent on the specific sample and are documented there.
 
-== Basic Messaging via Java `main` application
-See in module `emjapi-samples-basic`.
+== Download and Installation
+To download and install the samples just clone this repository via:
+```
+git clone https://github.com/SAP/enterprise-messaging-client-java-samples
+```
 
-== Messaging via Spring based application deployed on SAP CP
-See in module `emjapi-samples-sapcp`.
+For details on how to configure and run the samples please take a look into the README in the corresponding samples directory.
+
+=== Basic Messaging as Java `main` application
+See description for this sample as well as install and configuration details in directory link:./emjapi-samples-basic[`emjapi-samples-basic`].
+
+=== Messaging as Spring based application deployed on SAP CP
+See description for this sample as well as install and configuration details in directory  link:./emjapi-samples-sapcp[`emjapi-samples-sapcp`].
+
+=== Basic Messaging with JMS extension as Java `main` application
+See description for this sample as well as install and configuration details in directory  link:./emjapi-samples-jms-basic[`emjapi-samples-jms-basic`].
+
+=== Messaging with JMS extension as Spring based application deployed on SAP CP
+See description for this sample as well as install and configuration details in directory  link:./emjapi-samples-jms-sapcp[`emjapi-samples-jms-sapcp`].
 
 == Support
 This project is _'as-is'_ with no support, no changes being made. +
