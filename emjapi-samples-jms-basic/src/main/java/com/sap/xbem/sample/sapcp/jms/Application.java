@@ -31,17 +31,17 @@ public class Application {
 
   public List<Message> run(String propertiesFilename, RunMode mode) throws Exception {
     if(mode == FULL || mode == SEND) {
-      XbemJmsProducer producer = new XbemJmsProducer(propertiesFilename);
+      EmJmsProducer producer = new EmJmsProducer(propertiesFilename);
       producer.produceMessages();
       producer.close();
     } else if(mode == SEND_TOPIC) {
-      XbemJmsProducer producer = new XbemJmsProducer(propertiesFilename);
+      EmJmsProducer producer = new EmJmsProducer(propertiesFilename);
       producer.sendToTopic(producer.getTopicName());
       producer.close();
     }
 
     if(mode == FULL || mode == RECEIVE) {
-      XbemJmsConsumer consumer = new XbemJmsConsumer(propertiesFilename);
+      EmJmsConsumer consumer = new EmJmsConsumer(propertiesFilename);
       List<Message> messages = consumer.readQueue();
       consumer.close();
       return messages;
