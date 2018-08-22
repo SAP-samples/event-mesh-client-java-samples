@@ -25,7 +25,7 @@ import java.util.Properties;
  * The queue used for messages must exist on the message broker.
  */
 @SuppressWarnings("ALL")
-public abstract class XbemJmsBase {
+public abstract class EmJmsBase {
 
   private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -42,12 +42,12 @@ public abstract class XbemJmsBase {
   protected boolean connected = false;
   private JMSException lastConnectionException;
 
-  protected XbemJmsBase(String url, Properties properties) {
+  protected EmJmsBase(String url, Properties properties) {
     this.url = url;
     this.properties = properties;
   }
 
-  protected XbemJmsBase(Properties properties) {
+  protected EmJmsBase(Properties properties) {
     this.url = properties.getProperty(PROPERTY_URL);
     this.properties = properties;
   }

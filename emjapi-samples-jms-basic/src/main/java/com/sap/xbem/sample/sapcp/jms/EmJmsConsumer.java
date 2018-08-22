@@ -20,21 +20,21 @@ import java.util.concurrent.TimeUnit;
  * The queue used for messages must exist on the message broker.
  */
 @SuppressWarnings("ALL")
-public class XbemJmsConsumer extends XbemJmsBase {
+public class EmJmsConsumer extends EmJmsBase {
 
-  private static final Logger LOG = LoggerFactory.getLogger(XbemJmsConsumer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(EmJmsConsumer.class);
   private static final String PROP_USE_MSG_LISTENER = "em.jms.consumer.msg.listener";
   private static final String PROP_USE_MSG_LISTENER_TIMEOUT = "em.jms.consumer.msg.listener.timeout";
 
-  public XbemJmsConsumer(Properties properties) {
+  public EmJmsConsumer(Properties properties) {
     super(properties);
   }
 
-  protected XbemJmsConsumer(String url, Properties properties) {
+  protected EmJmsConsumer(String url, Properties properties) {
     super(url, properties);
   }
 
-  public XbemJmsConsumer(String propertiesFilename) {
+  public EmJmsConsumer(String propertiesFilename) {
     super(Utils.readProperties(propertiesFilename));
   }
 

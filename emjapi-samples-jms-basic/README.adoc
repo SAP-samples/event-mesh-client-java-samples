@@ -103,19 +103,19 @@ And must be provided as `resources/credentials.json` to be used for the samples.
 The name of the credentials file can be set in the `resources/em-connection.properties` as follows:
 +
 ```
-xbem.credential=credentials.json
+em.credential=credentials.json
 ```
   . Create a queue on the SAP CP Enterprise Messaging Instance which was created before and add the _queue name_
   in the `resources/em-connection.properties` as
 +
 ```
-xbem.jms.queue.name=<created_queue_name>
+em.jms.queue.name=<created_queue_name>
 ```
   . Optional (for topic sample): Create a _Queue Subscription_ on the SAP CP Enterprise Messaging Instance which was created before and add the
   _queue subscription_ as _topic name_ in the `resources/em-connection.properties` as
 +
 ```
-xbem.jms.topic.name=<created_topic_name>
+em.jms.topic.name=<created_topic_name>
 ```
 
 

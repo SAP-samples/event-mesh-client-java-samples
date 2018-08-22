@@ -15,19 +15,19 @@ import java.util.Properties;
  * The queue used for messages must exist on the message broker.
  */
 @SuppressWarnings("ALL")
-public class XbemJmsProducer extends XbemJmsBase {
+public class EmJmsProducer extends EmJmsBase {
 
-  private static final Logger LOG = LoggerFactory.getLogger(XbemJmsProducer.class);
+  private static final Logger LOG = LoggerFactory.getLogger(EmJmsProducer.class);
 
-  protected XbemJmsProducer(String url, Properties properties) {
+  protected EmJmsProducer(String url, Properties properties) {
     super(url, properties);
   }
 
-  public XbemJmsProducer(Properties properties) {
+  public EmJmsProducer(Properties properties) {
     super(properties);
   }
 
-  public XbemJmsProducer(String propertiesFilename) {
+  public EmJmsProducer(String propertiesFilename) {
     super(Utils.readProperties(propertiesFilename));
   }
 

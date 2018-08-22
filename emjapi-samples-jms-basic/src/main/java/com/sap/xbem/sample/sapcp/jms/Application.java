@@ -25,7 +25,7 @@ public class Application {
 
     System.out.println("Received messages: ");
     messages.stream()
-            .map(XbemJmsBase.Utils::unwrapMessageText)
+            .map(EmJmsBase.Utils::unwrapMessageText)
             .forEach(System.out::println);
   }
 

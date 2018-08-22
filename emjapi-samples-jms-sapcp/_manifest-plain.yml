@@ -1,7 +1,0 @@
----
-# Default Manifest with single input for sample
-applications:
-- name: xbem-emjapi-jms-sapcp-it
-  memory: 768M
-  path: target/emjapi-samples-jms-sapcp.jar
-  random-route: false
