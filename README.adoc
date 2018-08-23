@@ -4,7 +4,7 @@
 SAP Cloud Platform Enterprise Messaging provides a cloud-based messaging framework for the development of decoupled and resilient services and integration flows (using SAP Cloud Integration) to support asynchronous communication principles.
 Direct integration with SAP S/4HANA Business Event Handling allows efficient development of innovative and scaling extensions.
 
-This Messaging Client Java Samples project contains a collection of messaging based application to demonstrate the usage of Enterprise Messaging in SAP Cloud Platform. Details to each sample application and the covered scenario are described in next section _List of sample projects_.
+This sample demonstrates Enterprise Messaging with Java, using combinations of vanilla Java, Spring, and JMS. Details on each sample application and the covered scenario are described in the table _List of sample projects_ below.
 
 For more details of **SAP Cloud Platform Enterprise Messaging** take a look at the link:https://github.com/pages/SAP/enterprise-messaging-samples/[Enterprise Messaging - Messaging Clients landing page] and link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP Cloud Platform Enterprise Messaging on SAP Help portal].
 
