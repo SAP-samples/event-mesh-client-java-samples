@@ -19,7 +19,7 @@ For more details of **SAP Cloud Platform Enterprise Messaging** take a look at t
 
 |link:./emjapi-samples-basic[`emjapi-samples-basic`]
 |Basic Messaging Client Java sample for SAP Cloud Platform Enterprise Messaging.
-|This sample demonstrates how messages can be send and received from a none SAP CP application. Therefore the messaging sample consists of a `MessageSender` and a `MessageReceiver` (both as a Java class with just a main method).
+|This sample demonstrates how messages can be send and received from a non SAP CP application. Therefore the messaging sample consists of a `MessageSender` and a `MessageReceiver` (both as a Java class with just a main method).
 
 |link:./emjapi-samples-sapcp[`emjapi-samples-sapcp`]
 |Application for Enterprise Messaging based on Spring Web running on SAP Cloud Platform (@ CloudFoundry (with Enterprise Messaging Service)).
@@ -27,7 +27,7 @@ For more details of **SAP Cloud Platform Enterprise Messaging** take a look at t
 
 |link:./emjapi-samples-jms-basic[`emjapi-samples-jms-basic`]
 |Basic sample of how to use the Apache Qpid JMS client in combination with the _Messaging Client Java_ to send and receive messages via SAP Cloud Platform Enterprise Messaging.
-|This sample demonstrates how messages can be send and received from a none SAP CP application via _JMS_. Therefore the messaging sample consists of a `EmJmsConsumer` and a `EmJmsProducer` which provides the corresponding functionality and an `Application` (which provides a main method to start send/receive samples).
+|This sample demonstrates how messages can be send and received from a non SAP CP application via _JMS_. Therefore the messaging sample consists of a `EmJmsConsumer` and a `EmJmsProducer` which provides the corresponding functionality and an `Application` (which provides a main method to start send/receive samples).
 
 |link:./emjapi-samples-jms-sapcp[`emjapi-samples-jms-sapcp`]
 |Application for SAP Cloud Platform Enterprise Messaging via JMS based on Spring Web running on SAP Cloud Platform in the Cloud Foundry environment (with the Enterprise Messaging Service).
