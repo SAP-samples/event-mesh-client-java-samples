@@ -13,10 +13,34 @@ To run the _Sender_ and/or _Receiver_ it is necessary that the credentials provi
 are provided in the 'resources/credentials.json' (default credentials location).
 Additionally, the previously created queue name (which was set up in the Messaging Service Dashboard) must be provided here in sample code (see variable `queueName`).
 
+== Prerequisites
+
+  * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
+  * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
+  * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
+  * A _SAP CP_ Account with `Enterprise Messaging Service` is required. +
+    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP help page].
+    ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
+    *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
+    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xess"}'`)
+    ** Created required queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
+
+=== Recommended
+
+  * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
+
+== Steps to Start
+
+  . Check all _Prerequisites_ fulfilled (see section _Prerequisites_ above)
+  . Clone the repository via `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`
+  . Change to project dir (`cd ./emjapi-samples-sapcp`) and build with maven (`mvn install`)
+  . Optional: Push to Cloud Foundry via `cf push` (*recommended to adopt the default `manifest.yml` accordingly*)
+
+
 === Build/Run from Command Line
 To build an executable Jar which can be run from the command line carry out the following steps:
 
-  . Check all _Prerequisites_ fulfilled (see section _Project Setup_ -> _Prerequisites_ below)
+  . Check all _Prerequisites_ fulfilled (see section _Prerequisites_ above)
   . Check out the maven project (e.g. `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`)
   . Change to the basic module (`cd emjapi-samples-basic`)
   . Run maven to build the Jar with `mvn clean package shade:shade`
@@ -178,29 +202,6 @@ The above sample works in combination with the below json (as `sapXbemBindingsJs
   }
 }
 ```
-
-== Project Setup
-
-=== Prerequisites
-
-  * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
-  * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
-  * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
-  * _SAP CP_ Account with _Enterprise Messaging Service_ available
-    ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
-    *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
-    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xess"}'`)
-    ** Created required queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
-
-=== Recommended
-
-  * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
-
-=== Steps to Start
-
-  . Clone the repository via `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`
-  . Change to project dir (`cd ./emjapi-samples-sapcp`) and build with maven (`mvn install`)
-  . Optional: Push to Cloud Foundry via `cf push` (*recommended to adopt the default `manifest.yml` accordingly*)
 
 == Support
 This project is _'as-is'_ with no support, no changes being made. +

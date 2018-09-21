@@ -9,6 +9,26 @@ This sample demonstrates Enterprise Messaging with Java, using combinations of v
 For more details of **SAP Cloud Platform Enterprise Messaging** take a look at the link:https://github.com/pages/SAP/enterprise-messaging-samples/[Enterprise Messaging - Messaging Clients landing page] and link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP Cloud Platform Enterprise Messaging on SAP Help portal].
 
 
+== Requirements
+Below requirements are necessary for each of the samples.
+Further necessary configuration and settings are dependent on the specific sample and are documented within each sample project.
+
+
+  * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
+  * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
+  * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
+  * A _SAP CP_ Account with `Enterprise Messaging Service` is required. +
+    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP help page].
+    ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
+    *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
+    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xess"}'`)
+    *** Include the ability to create required queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
+
+=== Recommended
+
+  * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
+
+
 === List of sample projects
 
 [cols=3*,options=header]
@@ -33,12 +53,6 @@ For more details of **SAP Cloud Platform Enterprise Messaging** take a look at t
 |Application for SAP Cloud Platform Enterprise Messaging via JMS based on Spring Web running on SAP Cloud Platform in the Cloud Foundry environment (with the Enterprise Messaging Service).
 |This sample demonstrates how messages can be send and received from a SAP CP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via pre-defined queues (see also `manifest.yml`). The REST endpoints are provided via the `MessageController` and the Enterprise Messaging integration as well as the JMS extension in the `MessagingService`.
 |===
-
-== Requirements
-To run the samples a running `Enterprise Messaging Service @SAP CP` is required. +
-For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP help page].
-
-Further necessary configuration and settings are dependent on the specific sample and are documented within each sample project.
 
 == Download and Installation
 To download and install the samples just clone this repository via:

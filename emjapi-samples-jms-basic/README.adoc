@@ -4,6 +4,23 @@
 Sample application (plain Java) of how to use the Apache Qpid JMS client to send and receive messages via SAP Cloud Platorm Enterprise Messaging. +
 Tested _Messaging Client_ in version `1.8.2` (including _Apache Qpid JMS_ in version `0.32.0`) against SAP Cloud Platform Enterprise Messaging.
 
+== Prerequisites
+
+  * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
+  * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
+  * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
+  * A _SAP CP_ Account with `Enterprise Messaging Service` is required. +
+    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP help page].
+    ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
+    *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
+    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xess"}'`)
+    ** Created required queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
+
+=== Recommended
+
+  * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
+
+
 == JMS Extension
 
 .Additional Maven Dependencies
@@ -49,25 +66,13 @@ Queue queue = session.createQueue("queue:name-of-queue");
 MessageConsumer consumer = session.createConsumer(queue);
 ```
 
+
 == Project Setup
 
-=== Prerequisites: Local Setup
+=== Preparations
 
-  * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
-  * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
-  * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
-  * _SAP CP_ Account with _Enterprise Messaging Service_ available
-    ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
-    *** This must be also fully configured with corresponding Cloud Foundry landscape to be able to do a `cf push`.
-
-
-.Recommended
-
-  * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio Code] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
-
-=== Prerequisites: SAP Cloud Platform
-
-    . Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-jms-basic -c '{"emname":"xess"}'`)
+    . Check all _Prerequisites_ fulfilled (see section _Prerequisites_ above) 
+    .. From the prerequisites: Created Enterprise Messaging Instance is created (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-jms-basic -c '{"emname":"xess"}'`)
     . Credentials (via `create-service-key``) +
       The credentials are created during binding of an application to an _Enterprise Messaging Service Instance_ or via creation of a _service key_ for an _Enterprise Messaging Service Instance_. +      
       For creation of a _service key_ the _CloudFoundry CLI_ can be used via: `cf csk enterprise-messaging-service-instance-name key-name -c '{"emname":"sample_application"}'`. +
@@ -122,7 +127,7 @@ em.jms.topic.name=<created_topic_name>
 === Steps to Start
 
   . Clone the repository via `git clone https://github.com/SAP/enterprise-messaging-client-java-samples`
-  . Fulfill all prerequisites (_local, SAP CP_).
+  . Check all all _Prerequisites_ are fulfilled and the _Preparations_ are done.
   ** This includes adding mandatory settings to `em-connection.properties` (or creation of own properties file with corresponding settings)
   . Change to project dir (`cd ./emjapi-samples-jms-basic`) and build with maven (`mvn`)
   . Run sample application either via:
