@@ -6,13 +6,12 @@ Direct integration with SAP S/4HANA Business Event Handling allows efficient dev
 
 This sample demonstrates Enterprise Messaging with Java, using combinations of vanilla Java, Spring, and JMS. Details on each sample application and the covered scenario are described in the table _List of sample projects_ below.
 
-For more details of **SAP Cloud Platform Enterprise Messaging** take a look at the link:https://github.com/pages/SAP/enterprise-messaging-samples/[Enterprise Messaging - Messaging Clients landing page] and link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP Cloud Platform Enterprise Messaging on SAP Help portal].
+For more details of **SAP Cloud Platform Enterprise Messaging** take a look at the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP Cloud Platform Enterprise Messaging on SAP Help portal].
 
 
 == Requirements
 Below requirements are necessary for each of the samples.
 Further necessary configuration and settings are dependent on the specific sample and are documented within each sample project.
-
 
   * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
   * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
