@@ -5,7 +5,7 @@
 
   <groupId>com.sap.cloud.samples.servicesdk.xbem</groupId>
   <artifactId>emjapi-samples</artifactId>
-  <version>1.8.2</version>
+  <version>1.8.3</version>
   <packaging>pom</packaging>
 
   <name>SAP CP EM: Several samples for Java client</name>

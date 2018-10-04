@@ -5,7 +5,7 @@
 
   <groupId>com.sap.cloud.samples.servicesdk.xbem</groupId>
   <artifactId>emjapi-samples-jms-basic</artifactId>
-  <version>1.8.2</version>
+  <version>1.8.3</version>
   <packaging>jar</packaging>
 
   <name>SAP CP EM: Basic sample app with JMS ext. (@local)</name>
@@ -28,7 +28,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <version.emjapi>${project.version}</version.emjapi>
     <!-- Versions: Dependencies -->
-    <version.emjapi>1.8.2</version.emjapi>
+    <version.emjapi>1.8.3</version.emjapi>
     <version.junit>4.12</version.junit>
     <!-- ignore test failure because ApplicationTest require pre-configured SAP CP EM -->
     <maven.test.failure.ignore>true</maven.test.failure.ignore>

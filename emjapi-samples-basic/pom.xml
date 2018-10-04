@@ -5,7 +5,7 @@
 
   <groupId>com.sap.cloud.samples.servicesdk.xbem</groupId>
   <artifactId>emjapi-samples-basic</artifactId>
-  <version>1.8.2</version>
+  <version>1.8.3</version>
   <packaging>jar</packaging>
 
   <name>SAP CP EM: Basic sample app (@local)</name>
