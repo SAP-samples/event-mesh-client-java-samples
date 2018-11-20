@@ -26,6 +26,7 @@ public final class MessageService {
   private final List<MessageEvent> messageList = Collections.synchronizedList(new ArrayList<>());
 
   private MessageConsumer messageListener;
+  private MessagingService messagingService = null;
 
   public boolean initReceiver() throws MessagingException {
     try {
@@ -94,14 +95,6 @@ public final class MessageService {
     return new String(body, 5, body.length-5, StandardCharsets.UTF_8);
   }
 
-  public void closeReceiver() throws MessagingException {
-//    try {
-//      closeConnection();
-//    } catch (JMSException e) {
-//      throw new MessagingException(e);
-//    }
-  }
-
   public int clearMessages() {
     int clearedMessagesAmount = messageList.size();
     messageList.clear();
@@ -113,18 +106,10 @@ public final class MessageService {
     return Collections.unmodifiableList(tmp);
   }
 
-  public MessageEvent sendMessage(String content) throws MessagingException {
-    return sendMessage(new MessageEvent(content));
-  }
-
   public MessageEvent sendMessage(MessageEvent event) throws MessagingException {
     try {
       Session s = grantConnection().createSession();
       TextMessage message = s.createTextMessage(event.toScsv());
-//      TextMessage message = s.createTextMessage(
-//              "Content=" + event.getMessage() +
-//              "; id=" + event.getId() +
-//              "; time=" + event.getTimestamp() + ";");
       MessageProducer producer = grantProducer(s, OUT_QUEUE);
       producer.send(message);
       LOG.info(() -> "Send message: " + event);
@@ -144,9 +129,7 @@ public final class MessageService {
     return state.toString();
   }
 
-  private MessagingService messagingService = null;
-
-  private synchronized MessageConsumer grantConsumer(Session s, String binding) throws JMSException {
+  private MessageConsumer grantConsumer(Session s, String binding) throws JMSException {
     LOG.info(() -> "Grant consumer for binding " + binding);
     MessagingBinding b = grantMessagingService().getConfig().getBinding(binding);
     LOG.info(() -> "Grant consumer for endpoint " + b.getEndpointName() + " and address " + b.getAddress());
@@ -156,8 +139,7 @@ public final class MessageService {
     return consumer;
   }
 
-  private synchronized MessageProducer grantProducer(Session s, String binding) throws JMSException {
-//    Session s = grantConnection().createSession();
+  private MessageProducer grantProducer(Session s, String binding) throws JMSException {
     LOG.info(() -> "Grant producer for binding " + binding);
     MessagingBinding b = grantMessagingService().getConfig().getBinding(binding);
     LOG.info(() -> "Grant producer for endpoint " + b.getEndpointName() + " and address " + b.getAddress());
@@ -167,12 +149,10 @@ public final class MessageService {
     return producer;
   }
 
-  private synchronized Connection grantConnection() throws MessagingException, JMSException {
-//    if(connection == null) {
-      MessagingService messagingService = grantMessagingService();
-      Connection connection = messagingService.configure(JmsConnectionFactory.class).createConnection();
-      LOG.info(() -> "Created connection and cached it.");
-//    }
+  private Connection grantConnection() throws MessagingException, JMSException {
+    MessagingService messagingService = grantMessagingService();
+    Connection connection = messagingService.configure(JmsConnectionFactory.class).createConnection();
+    LOG.info(() -> "Created connection and cached it.");
     return connection;
   }
 
@@ -184,12 +164,4 @@ public final class MessageService {
     }
     return messagingService;
   }
-
-//  private synchronized void closeConnection() throws JMSException {
-//    if(connection != null) {
-//      connection.close();
-//      LOG.info(() -> "Closed destination");
-//      connection = null;
-//    }
-//  }
 }

@@ -3,7 +3,6 @@ package com.sap.cloud.samples.servicesdk.xbem.sapcp.boundary;
 import com.sap.cloud.samples.servicesdk.xbem.sapcp.service.MessageEvent;
 import com.sap.cloud.samples.servicesdk.xbem.sapcp.service.MessageService;
 import com.sap.cloud.servicesdk.xbem.api.MessagingException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,14 +64,9 @@ public class MessageController {
   }
 
   @DeleteMapping(value = "/messages", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> close() {
-    try {
-      int clearedMessagesCount = messageService.clearMessages();
-      messageService.closeReceiver();
-      return ResponseEntity.ok("{\"clearedMessagesCount\":" + clearedMessagesCount+ "}");
-    } catch (MessagingException e) {
-      LOG.severe(() -> "MessageService close failed: " + e.getMessage());
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
+  public ResponseEntity<String> clearReceivedMessages() {
+    int clearedMessagesCount = messageService.clearMessages();
+    LOG.info(() -> "MessageService cleared " + clearedMessagesCount + " messages.");
+    return ResponseEntity.ok("{\"clearedMessagesCount\":" + clearedMessagesCount+ "}");
   }
 }
