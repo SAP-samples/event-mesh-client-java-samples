@@ -33,20 +33,12 @@
     <java.version>1.8</java.version>
     <!-- <version.emjapi>${project.version}</version.emjapi> -->
     <version.emjapi>1.8.3</version.emjapi>
-    <version.qpid-jms-client>0.32.0</version.qpid-jms-client>
-    <version.qpid-protonj>0.27.1</version.qpid-protonj>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>com.sap.cloud.servicesdk.xbem</groupId>
       <artifactId>emjapi-api</artifactId>
-      <version>${version.emjapi}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.sap.cloud.servicesdk.xbem</groupId>
-      <artifactId>emjapi-adapter-amqp10</artifactId>
       <version>${version.emjapi}</version>
     </dependency>
 
@@ -60,18 +52,6 @@
       <groupId>com.sap.cloud.servicesdk.xbem</groupId>
       <artifactId>emjapi-extension-sap-cp-jms</artifactId>
       <version>${version.emjapi}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.qpid</groupId>
-      <artifactId>qpid-jms-client</artifactId>
-      <version>${version.qpid-jms-client}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.qpid</groupId>
-      <artifactId>proton-j</artifactId>
-      <version>${version.qpid-protonj}</version>
     </dependency>
 
     <dependency>
