@@ -1,4 +1,4 @@
-= SAP CP Application for Enterprise Messaging
+= SAP CP Application for Enterprise Messaging 
 :toc:
 
 Sample Application for Enterprise Messaging based on Spring Web running on SAP Cloud Platform (@ CloudFoundry (with Enterprise Messaging Service)).
