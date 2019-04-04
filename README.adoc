@@ -20,13 +20,13 @@ Further necessary configuration and settings are dependent on the specific sampl
     For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP help page].
     ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
     *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
-    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xess"}'`)
-    *** Include the ability to create required queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
+    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xbem-sample"}'`)
+	*** Remember to adjust the manifest file of the application
+    *** Include the ability to create required queues (e.g. `NameOfQueue`) and queue subscriptions (e.g. `NameOfTopic`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
 
 === Recommended
 
   * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
-
 
 === List of sample projects
 
@@ -36,21 +36,14 @@ Further necessary configuration and settings are dependent on the specific sampl
 |Scenario
 |Scenario Description
 
-|link:./emjapi-samples-basic[`emjapi-samples-basic`]
-|Basic Messaging Client Java sample for SAP Cloud Platform Enterprise Messaging.
-|This sample demonstrates how messages can be send and received from a non SAP CP application. Therefore the messaging sample consists of a `MessageSender` and a `MessageReceiver` (both as a Java class with just a main method).
-
-|link:./emjapi-samples-sapcp[`emjapi-samples-sapcp`]
+|link:./emjapi-samples-jms-p2p[`emjapi-samples-jms-p2p`]
 |Application for Enterprise Messaging based on Spring Web running on SAP Cloud Platform (@ CloudFoundry (with Enterprise Messaging Service)).
-|This sample demonstrates how messages can be send and received from a SAP CP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via pre-defined queues (see also `manifest.yml`). The REST endpoints are provided via the `MessageController` and the Enterprise Messaging integration in the `MessagingService`.
+|This sample demonstrates how messages can be send and received from a SAP CP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via a queue (or queues) of choice. The REST endpoints are provided via the `MessagingServiceRestController`.
 
-|link:./emjapi-samples-jms-basic[`emjapi-samples-jms-basic`]
-|Basic sample of how to use the Apache Qpid JMS client in combination with the _Messaging Client Java_ to send and receive messages via SAP Cloud Platform Enterprise Messaging.
-|This sample demonstrates how messages can be send and received from a non SAP CP application via _JMS_. Therefore the messaging sample consists of a `EmJmsConsumer` and a `EmJmsProducer` which provides the corresponding functionality and an `Application` (which provides a main method to start send/receive samples).
+|link:./emjapi-samples-jms-pubsub[`emjapi-samples-jms-pubsub`]
+|Application for Enterprise Messaging based on Spring Web running on SAP Cloud Platform (@ CloudFoundry (with Enterprise Messaging Service)).
+|This sample demonstrates how messages can be send and received from a topic from a SAP CP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via a topic of choice. It also offers a REST endpoint to receive a message from a queue. The REST endpoints are provided via the `MessagingServiceRestController`.
 
-|link:./emjapi-samples-jms-sapcp[`emjapi-samples-jms-sapcp`]
-|Application for SAP Cloud Platform Enterprise Messaging via JMS based on Spring Web running on SAP Cloud Platform in the Cloud Foundry environment (with the Enterprise Messaging Service).
-|This sample demonstrates how messages can be send and received from a SAP CP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via pre-defined queues (see also `manifest.yml`). The REST endpoints are provided via the `MessageController` and the Enterprise Messaging integration as well as the JMS extension in the `MessagingService`.
 |===
 
 == Download and Installation
@@ -60,6 +53,70 @@ git clone https://github.com/SAP/enterprise-messaging-client-java-samples
 ```
 
 For details on how to configure and run the samples please take a look into the README in the corresponding samples directory.
+
+== Usage of the client
+
+This section describes the usage of the client without any sample application. It is described which dependencies are needed and how a `MessagingServiceJmsConnectionFactory` is received in a short way.
+
+=== Dependencies
+
+Three different dependencies are needed:
+
+. the enterprise-messaging spring service connector which provides the `MessagingService`
+. the enterprise-messaging core which creates the connection factory
+. the enterprise-messaging JMS extension which provides the `MessagingServiceJmsConnectionFactory`
+
+```xml
+<dependency>
+	<groupId>com.sap.cloud.servicesdk.xbem</groupId>
+	<artifactId>emjapi-connector-sap-cp</artifactId>
+	<version>${version.xbem.client}</version>
+</dependency>
+
+<dependency>
+	<groupId>com.sap.cloud.servicesdk.xbem</groupId>
+	<artifactId>emjapi-core</artifactId>
+	<version>${version.xbem.client}</version>
+</dependency>
+
+<dependency>
+	<groupId>com.sap.cloud.servicesdk.xbem</groupId>
+	<artifactId>emjapi-extension-sap-cp-jms</artifactId>
+	<version>${version.xbem.client}</version>
+</dependency>
+```
+
+=== Code snippets
+
+Get the `MessagingService` via the spring `Cloud` object
+
+```java
+ServiceConnectorConfig config = null; // currently there are no configurations for the MessagingServiceFactory supported
+Cloud cloud = new CloudFactory().getCloud();
+// get a messaging service factory via the service connector
+MessagingService messagingService = cloud.getSingletonServiceConnector(MessagingService.class, config);
+```
+
+Create a the `MessagingServiceFactory` object with the help of the `MessagingServiceFactoryCreator` and get a `MessagingServiceJmsConnectionFactory`. 
+The Connection Factory can be configured with the `MessagingServiceJmsSettings`. In case the reconnection feature is not needed and an individual 
+connection mechanism (e.G. through a connection cache) is used the settings can be skipped. The connection factory can be built with 
+`messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class`.
+
+```java
+MessagingServiceJmsSettings settings = new MessagingServiceJmsSettings(); // settings are preset with default values (see JavaDoc)
+settings.setMaxReconnectAttempts(5); // use -1 for unlimited attempts
+settings.setInitialReconnectDelay(3000);
+settings.setReconnectDelay(3000);
+MessagingServiceFactory messagingServiceFactory = MessagingServiceFactoryCreator.createFactory(messagingService);
+MessagingServiceJmsConnectionFactory connectionFactory = messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class, settings)
+```
+
+Further the `MessagingServiceJmsConnectionFactory` is used to create a connection and a session.
+
+```java
+Connection connection = connectionFactory.createConnection();
+Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE));
+```
 
 == Support
 This project is _'as-is'_ with no support, no changes being made. +

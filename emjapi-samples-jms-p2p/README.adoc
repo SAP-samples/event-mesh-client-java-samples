@@ -1,0 +1,107 @@
+= SAP Enterprise Messaging JMS: Point to Point
+:toc:
+
+Sample application (plain Java) of how to use the JMS client to send and receive messages via SAP Cloud Platform Enterprise Messaging.
+
+== Prerequisites
+
+  * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
+  * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
+  * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
+  * Optional: Installed Postman
+  * A _SAP CP_ Account with `Enterprise Messaging Service` is required. +
+    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP help page].
+    ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
+    *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
+    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xbem-sample"}'`)
+	*** Remember to adjust the manifest file of the application
+    ** Created queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
+
+=== Recommended
+
+  * Installed IDE of choice (e.g. link:https://code.visualstudio.com/[Visual Studio] with installed link:https://marketplace.visualstudio.com/items?itemName=redhat.java[Java language support] plugin)
+
+== Project
+
+The point to point (p2p) sample is a small spring boot (version 2.0.6) applications which provides two different REST endpoints to send and receive messages from a specific queue. 
+
+=== Steps to Start
+
+  . Check all _Prerequisites_ fulfilled (see section _Prerequisites_ above)
+  . Clone the repository via `git clone`
+  . Build the project with maven (`mvn clean install`)
+  . Push to Cloud Foundry via `cf push` (*if the service was renamed please adopt the manifest accordingly*)
+  
+=== Steps to Use
+
+  * Send a message with a HTTP POST via  https://<application-path>/queue/<queue-name>/message (the body must contain the message)
+  ** `curl -X GET -H "Content-Type: text/plain" -H "Cache-Control: no-cache" "https://<application-path>/queue/<queue-name>/message"`
+  * Receive a message with a HTTP GET via https://<application-path>/queue/<queue-name>/message
+  ** Note that the this is a blocking call. If the request was aborted the consumer will still be active on the server and receive the next message.
+  ** `curl -X POST -H "Content-Type: text/plain" -H "Cache-Control: no-cache" -d '<message>' "https://<application-path>/queue/<queue-name>/message"`
+  
+=== Code Snippets
+
+```java
+ServiceConnectorConfig config = null; // currently there are no configurations for the MessagingServiceFactory supported
+Cloud cloud = new CloudFactory().getCloud();
+// get a messaging service factory via the service connector
+MessagingService messagingService = cloud.getSingletonServiceConnector(MessagingService.class, config);
+```
+
+Create a the `MessagingServiceFactory` object with the help of the `MessagingServiceFactoryCreator` and get a `MessagingServiceJmsConnectionFactory`.
+The Connection Factory can be configured with the `MessagingServiceJmsSettings`. In case the reconnection feature is not needed and an individual 
+connection mechanism (e.G. through a connection cache) is used the settings can be skipped. The connection factory can be built with 
+`messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class`.
+
+```java
+MessagingServiceJmsSettings settings = new MessagingServiceJmsSettings(); // settings are preset with default values (see JavaDoc)
+settings.setMaxReconnectAttempts(5); // use -1 for unlimited attempts
+settings.setInitialReconnectDelay(3000);
+settings.setReconnectDelay(3000);
+MessagingServiceFactory messagingServiceFactory = MessagingServiceFactoryCreator.createFactory(messagingService);
+MessagingServiceJmsConnectionFactory connectionFactory = messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class, settings)
+```
+
+==== Sending
+For sending messages a `Connection` and a `Session` is needed first. Note that those resources must be closed if they are not needed anymore. As those objects are implementing the `autoclosable` interface they will be closed automatically after the try-catch-block. Now a `BytesMessage` can be created. In the next steps a queue is bound to a producer. They queue must be created on the broker first (via. e.g. the Dashboard). Note, that the prefix "queue:" is mandatory. Finally, the message can be sent to the queue.
+
+
+```java
+try (Connection connection = connectionFactory.createConnection();
+                Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
+	connection.start();
+	BytesMessage byteMessage = session.createBytesMessage();
+	byteMessage.writeBytes(message.getBytes());
+	Queue queue = session.createQueue("queue:" + "<queue-name>"); // even though the JMS API is "createQueue" the queue will not be created on the message broker
+	MessageProducer producer = session.createProducer(queue);
+	producer.send(byteMessage);
+} catch (JMSException e) {
+	LOG.error("Could not send message={}.", message, e);
+}
+```
+==== Receiving
+
+In this example a consumer is listening to a queue. Again a `Connection` and a `Session` is needed. Note that those resources must be closed if they are not needed anymore. First a queue with the mandatory prefix "queue:" is bound to consumer. As the messages are sent as a `ByteMassage` the message needs to be converted to e.g. a `String`
+
+```java
+ try (Connection connection = connectionFactory.createConnection();
+	connection.start();
+	Queue queue = session.createQueue(QUEUE_PREFIX + queueName); // see comments above
+	MessageConsumer consumer = session.createConsumer(queue);
+	BytesMessage message = (BytesMessage) consumer.receive(); // Blocking call. Define a timeout or use a Message Listener
+	byte[] byteData = new byte[(int) message.getBodyLength()];
+    message.readBytes(byteData);
+} catch (JMSException e) {
+	LOG.error("Could not receive message.", e);
+}
+```
+  
+== Support
+This project is _'as-is'_ with no support, no changes being made. +
+You are welcome to make changes to improve it but we are not available for questions or support of any kind.
+
+
+== License
+Copyright (c) 2017 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the _SAP SAMPLE CODE LICENSE AGREEMENT, v1.0-071618_ except as noted otherwise in the link:../LICENSE.txt[LICENSE file].

@@ -1,64 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.sap.cloud.samples.servicesdk.xbem</groupId>
-  <artifactId>emjapi-samples</artifactId>
-  <version>1.8.3</version>
-  <packaging>pom</packaging>
+    <groupId>com.sap.cloud.samples.servicesdk.xbem</groupId>
+    <artifactId>emjapi-samples</artifactId>
+    <version>2.0.0</version>
+    <packaging>pom</packaging>
 
-  <name>SAP CP EM: Several samples for Java client</name>
-  <description>SAP Cloud Platform Enterprise Messaging - Java Client - Several samples to run with or on SAP Cloud Platform</description>
+    <name>SAP CP EM: Several samples for Java client</name>
+    <description>SAP Cloud Platform Enterprise Messaging - Java Client - Several samples to run with or on SAP Cloud Platform</description>
 
-  <licenses>
-    <license>
-      <name>Sap Sample Code License Agreement</name>
-      <url>https://github.com/SAP/enterprise-messaging-client-java-samples/raw/master/LICENSE.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>Sap Sample Code License Agreement</name>
+            <url>https://github.com/SAP/enterprise-messaging-client-java-samples/raw/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <url>https://github.com/SAP/enterprise-messaging-client-java-samples</url>
+    <url>https://github.com/SAP/enterprise-messaging-client-java-samples</url>
 
-  <modules>
-    <module>emjapi-samples-basic</module>
-    <module>emjapi-samples-sapcp</module>
-    <module>emjapi-samples-jms-basic</module>
-    <module>emjapi-samples-jms-sapcp</module>
-  </modules>
+    <modules>
+        <module>emjapi-samples-jms-p2p</module>
+        <module>emjapi-samples-jms-pubsub</module>
+    </modules>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <version.emjapi>${project.version}</version.emjapi>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.sap.cloud.servicesdk.xbem</groupId>
-        <artifactId>emjapi-api</artifactId>
-        <version>${version.emjapi}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.sap.cloud.servicesdk.xbem</groupId>
-        <artifactId>emjapi-adapter-amqp10</artifactId>
-        <version>${version.emjapi}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.sap.cloud.servicesdk.xbem</groupId>
-        <artifactId>emjapi-connector-sap-cp</artifactId>
-        <version>${version.emjapi}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-  <build>
-    <defaultGoal>package</defaultGoal>
-  </build>
+    <build>
+        <defaultGoal>package</defaultGoal>
+    </build>
 </project>

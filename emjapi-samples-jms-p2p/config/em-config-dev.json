@@ -1,0 +1,8 @@
+{
+	"emname": "em-sample-dev",
+	"options": {
+		"management": true,
+		"messagingrest": true,
+		"messaging": true
+	}
+}

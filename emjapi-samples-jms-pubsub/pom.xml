@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.6.RELEASE</version>
+        <relativePath /> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.sap.cloud.samples.servicesdk.xbem</groupId>
+    <artifactId>emjapi-samples-jms-pubsub</artifactId>
+    <version>2.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>SAP CP EM: Basic p2p sample app with JMS ext.</name>
+    <description>SAP Cloud Platform Enterprise Messaging - Java Client - Basic Sample application with JMS extension</description>
+
+    <licenses>
+        <license>
+            <name>Sap Sample Code License Agreement</name>
+            <url>https://github.com/SAP/enterprise-messaging-client-java-samples/raw/master/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <url>https://github.com/SAP/enterprise-messaging-client-java-samples</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <version.xbem.client>2.0.1</version.xbem.client>
+    </properties>
+
+    <dependencies>
+        <!-- Messaging client related dependencies -->
+        <dependency>
+            <groupId>com.sap.cloud.servicesdk.xbem</groupId>
+            <artifactId>emjapi-connector-sap-cp</artifactId>
+            <version>${version.xbem.client}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sap.cloud.servicesdk.xbem</groupId>
+            <artifactId>emjapi-core</artifactId>
+            <version>${version.xbem.client}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sap.cloud.servicesdk.xbem</groupId>
+            <artifactId>emjapi-extension-sap-cp-jms</artifactId>
+            <version>${version.xbem.client}</version>
+        </dependency>
+
+        <!-- spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
