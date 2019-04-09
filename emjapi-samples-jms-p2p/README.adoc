@@ -35,10 +35,10 @@ The point to point (p2p) sample is a small spring boot (version 2.0.6) applicati
 === Steps to Use
 
   * Send a message with a HTTP POST via  https://<application-path>/queue/<queue-name>/message (the body must contain the message)
-  ** `curl -X GET -H "Content-Type: text/plain" -H "Cache-Control: no-cache" "https://<application-path>/queue/<queue-name>/message"`
+  ** `curl -X POST -H "Content-Type: text/plain" -H "Cache-Control: no-cache" -d '<message>' "https://<application-path>/queue/<queue-name>/message"`
   * Receive a message with a HTTP GET via https://<application-path>/queue/<queue-name>/message
   ** Note that the this is a blocking call. If the request was aborted the consumer will still be active on the server and receive the next message.
-  ** `curl -X POST -H "Content-Type: text/plain" -H "Cache-Control: no-cache" -d '<message>' "https://<application-path>/queue/<queue-name>/message"`
+  ** `curl -X GET -H "Content-Type: text/plain" -H "Cache-Control: no-cache" "https://<application-path>/queue/<queue-name>/message"`
   
 === Code Snippets
 

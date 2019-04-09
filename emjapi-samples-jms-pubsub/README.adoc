@@ -35,7 +35,7 @@ The publish and subscribe (pubsub) sample is a small spring boot (version 2.0.6)
 === Steps to Use
 
   * Send a message with a HTTP POST via https://<application-path>/topic/<topic-name>/message (The body must contain the message)
-  ** Note that a client or a queue must be subscribed to the topic before
+  ** Note that a client or a queue must be subscribed to the topic before!
  ** `curl -X POST -H "Content-Type: text/plain" -H "Cache-Control: no-cache" -d '<message>' "https://<application-path>/topic/<topic-name>/message"`
   * Receive a message via a consumer with a HTTP GET via https://<application-path>/topic/<topic-name>/message
   ** Note that the this is a blocking call. If the request was aborted the consumer will still be active on the server and receive the next message.
