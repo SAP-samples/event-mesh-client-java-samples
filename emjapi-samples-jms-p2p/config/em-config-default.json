@@ -1,0 +1,27 @@
+{
+    "emname": "em-sample-default",
+    "namespace": "sap/em/1",
+    "options": {
+        "management": true,
+        "messagingrest": true,
+        "messaging": true
+    },
+    "rules": {
+        "queueRules": {
+            "inboundFilter": [
+                "${namespace}/#"
+            ],
+            "outboundFilter": [
+                "${namespace}/#"
+            ]
+        },
+        "topicRules": {
+            "inboundFilter": [
+                "${namespace}/#"
+            ],
+            "outboundFilter": [
+                "${namespace}/#"
+            ]
+        }
+    }
+}

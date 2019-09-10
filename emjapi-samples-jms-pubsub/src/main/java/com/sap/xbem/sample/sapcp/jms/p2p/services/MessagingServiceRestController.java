@@ -105,28 +105,29 @@ public class MessagingServiceRestController {
      * @return the message which has been received
      * @throws MessagingException
      */
-    @GetMapping(MESSAGE_TOPIC_REST_PATH)
-    public ResponseEntity<String> receiveMessageFromTopic(@PathVariable String topicName) throws MessagingException {
-        try {
-            topicName = decodeValue(topicName);
-        } catch (UnsupportedEncodingException e1) {
-            return ResponseEntity.badRequest().body("Unable to decode the queuename");
-        }
-
-        try (Connection connection = connectionFactory.createConnection();
-                Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
-            connection.start();
-            Topic topic = session.createTopic(TOPIC_PREFIX + topicName);
-            MessageConsumer consumer = session.createConsumer(topic);
-            BytesMessage message = (BytesMessage) consumer.receive(); // Blocking call. You can either define a timeout or use a message listener
-            byte[] byteData = new byte[(int) message.getBodyLength()];
-            message.readBytes(byteData);
-            return ResponseEntity.ok(new String(byteData));
-        } catch (JMSException e) {
-            LOG.error("Could not receive message from topic={}.", topicName, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could not receive message from topic. Error=" + e);
-        }
-    }
+    //Not supported by default plan
+//    @GetMapping(MESSAGE_TOPIC_REST_PATH)
+//    public ResponseEntity<String> receiveMessageFromTopic(@PathVariable String topicName) throws MessagingException {
+//        try {
+//            topicName = decodeValue(topicName);
+//        } catch (UnsupportedEncodingException e1) {
+//            return ResponseEntity.badRequest().body("Unable to decode the queuename");
+//        }
+//
+//        try (Connection connection = connectionFactory.createConnection();
+//                Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
+//            connection.start();
+//            Topic topic = session.createTopic(TOPIC_PREFIX + topicName);
+//            MessageConsumer consumer = session.createConsumer(topic);
+//            BytesMessage message = (BytesMessage) consumer.receive(); // Blocking call. You can either define a timeout or use a message listener
+//            byte[] byteData = new byte[(int) message.getBodyLength()];
+//            message.readBytes(byteData);
+//            return ResponseEntity.ok(new String(byteData));
+//        } catch (JMSException e) {
+//            LOG.error("Could not receive message from topic={}.", topicName, e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could not receive message from topic. Error=" + e);
+//        }
+//    }
 
     /**
      * Receives a message from a queue. This example is supposed to be a publish
