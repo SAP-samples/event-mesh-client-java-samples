@@ -10,12 +10,16 @@ Sample application (plain Java) of how to use the JMS client to send and receive
   * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
   * Optional: Installed Postman
   * A _SAP CP_ Account with `Enterprise Messaging Service` is required. +
-    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/product/SAP_ENTERPRISE_MESSAGING/Cloud/en-US[SAP help page].
+    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP help page].
     ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
     *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
-    ** Created Enterprise Messaging Instance (e.g. via cli: `cf cs enterprise-messaging dev emjapi-samples-sapcp -c '{"emname":"xbem-sample"}'`)
+    ** Created Enterprise Messaging Instance 
+    *** e.g. via cli: `cf cs enterprise-messaging default emjapi-samples-sapcp -c` link:./config/[`emjapi-samples-jms-p2p/config`]
+    *** The Service Descriptors can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here]
 	*** Remember to adjust the manifest file of the application
-    ** Created queues (e.g. `NameOfQueue`) via e.g. link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/97a0b3c0067044fcba0df174b9c38f5b.html[Dashboard UI]
+    ** Create queues (e.g. `NameOfQueue`) via e.g.     link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/57af1bd4e8f54b0a9b36414a5ec6b800.html?q=messaging%20management[MM API],
+    link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/57af1bd4e8f54b0a9b36414a5ec6b800.html[UI]
+    *** For queue creation with the MM API you need to provide a fully qualified queue name including the namespace
 
 === Recommended
 
@@ -34,6 +38,8 @@ The point to point (p2p) sample is a small spring boot (version 2.0.6) applicati
   
 === Steps to Use
 
+  * The queue name has to be URL encoded. The samples provide a function to URL encode
+  ** `curl -X POST -H "Content-Type: text/plain" -H "Cache-Control: no-cache" -d "https://<application-path>/encode"`(the body must contain the queue name)
   * Send a message with a HTTP POST via  https://<application-path>/queue/<queue-name>/message (the body must contain the message)
   ** `curl -X POST -H "Content-Type: text/plain" -H "Cache-Control: no-cache" -d '<message>' "https://<application-path>/queue/<queue-name>/message"`
   * Receive a message with a HTTP GET via https://<application-path>/queue/<queue-name>/message
@@ -52,7 +58,7 @@ MessagingService messagingService = cloud.getSingletonServiceConnector(Messaging
 Create a the `MessagingServiceFactory` object with the help of the `MessagingServiceFactoryCreator` and get a `MessagingServiceJmsConnectionFactory`.
 The Connection Factory can be configured with the `MessagingServiceJmsSettings`. In case the reconnection feature is not needed and an individual 
 connection mechanism (e.G. through a connection cache) is used the settings can be skipped. The connection factory can be built with 
-`messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class`.
+`messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class,settings)`.
 
 ```java
 MessagingServiceJmsSettings settings = new MessagingServiceJmsSettings(); // settings are preset with default values (see JavaDoc)
@@ -64,12 +70,11 @@ MessagingServiceJmsConnectionFactory connectionFactory = messagingServiceFactory
 ```
 
 ==== Sending
-For sending messages a `Connection` and a `Session` is needed first. Note that those resources must be closed if they are not needed anymore. As those objects are implementing the `autoclosable` interface they will be closed automatically after the try-catch-block. Now a `BytesMessage` can be created. In the next steps a queue is bound to a producer. They queue must be created on the broker first (via. e.g. the Dashboard). Note, that the prefix "queue:" is mandatory. Finally, the message can be sent to the queue.
+For sending messages a `Connection` and a `Session` is needed first. Note that those resources must be closed if they are not needed anymore. As those objects are implementing the `autoclosable` interface they will be closed automatically after the try-catch-block. Now a `BytesMessage` can be created. In the next steps a queue is bound to a producer. They queue must be created on the broker first (via. e.g. the UI or MM API). Note, that the prefix "queue:" is mandatory. Finally, the message can be sent to the queue.
 
 
 ```java
-try (Connection connection = connectionFactory.createConnection();
-                Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
+try (Connection connection = connectionFactory.createConnection();Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
 	connection.start();
 	BytesMessage byteMessage = session.createBytesMessage();
 	byteMessage.writeBytes(message.getBytes());
@@ -85,7 +90,7 @@ try (Connection connection = connectionFactory.createConnection();
 In this example a consumer is listening to a queue. Again a `Connection` and a `Session` is needed. Note that those resources must be closed if they are not needed anymore. First a queue with the mandatory prefix "queue:" is bound to consumer. As the messages are sent as a `ByteMassage` the message needs to be converted to e.g. a `String`
 
 ```java
- try (Connection connection = connectionFactory.createConnection();
+ try (Connection connection = connectionFactory.createConnection();Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
 	connection.start();
 	Queue queue = session.createQueue(QUEUE_PREFIX + queueName); // see comments above
 	MessageConsumer consumer = session.createConsumer(queue);
@@ -96,6 +101,20 @@ In this example a consumer is listening to a queue. Again a `Connection` and a `
 	LOG.error("Could not receive message.", e);
 }
 ```
+
+== Messaging Management API
+The messaging management api (MM API) provides functionality for creating, deleting and updating queues and queue subscriptions.
+Further more it provides APIs to get information on queues and queue subscriptions.
+The MM API documentation can be found link:https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html[here]. 
+The MM APIs have to be enabled in the service descriptor. A description for enabling the MM API can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here].
+
+== Creation of queues with the UI
+Queues can be created through the SAP Cloud Platform Cockpit UI.
+More information regarding the creation of queues through the UI can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/57af1bd4e8f54b0a9b36414a5ec6b800.html[here]
+
+== Service Descriptor
+Examples for the different service descriptors can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here] on the help site
+and in the config folder of this project.
   
 == Support
 This project is _'as-is'_ with no support, no changes being made. +
