@@ -58,7 +58,7 @@ MessagingService messagingService = cloud.getSingletonServiceConnector(Messaging
 Create a the `MessagingServiceFactory` object with the help of the `MessagingServiceFactoryCreator` and get a `MessagingServiceJmsConnectionFactory`.
 The Connection Factory can be configured with the `MessagingServiceJmsSettings`. In case the reconnection feature is not needed and an individual 
 connection mechanism (e.G. through a connection cache) is used the settings can be skipped. The connection factory can be built with 
-`messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class`.
+`messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class,settings)`.
 
 ```java
 MessagingServiceJmsSettings settings = new MessagingServiceJmsSettings(); // settings are preset with default values (see JavaDoc)
