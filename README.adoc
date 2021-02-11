@@ -1,6 +1,6 @@
 = Messaging Client Java - Samples for Enterprise Messaging
 
-[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/enterprise-messaging-client-java-samples)](https://api.reuse.software/info/github.com/SAP-samples/enterprise-messaging-client-java-samples) 
+image:https://api.reuse.software/badge/github.com/SAP-samples/enterprise-messaging-client-java-samples["REUSE status", link="https://api.reuse.software/info/github.com/SAP-samples/enterprise-messaging-client-java-samples"]
 
 == Description
 SAP Cloud Platform Enterprise Messaging provides a cloud-based messaging framework for the development of decoupled and resilient services and integration flows (using SAP Cloud Integration) to support asynchronous communication principles.
