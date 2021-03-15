@@ -25,7 +25,7 @@ Further necessary configuration and settings are dependent on the specific sampl
     For more detailed information and help on how to start with _SAP Event Mesh_ please check the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP help page].
     ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
     *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`
-    ** Created Event Mesh Instance 
+    ** Created Event Mesh Service Instance 
     *** e.g. via cli: `cf cs enterprise-messaging default emjapi-samples-sapbtp -c` link:./emjapi-samples-jms-p2p/config/[`<contents of default descriptor>`]
     *** The Service Descriptors can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here]
     *** Remember to adjust the manifest file of the application
@@ -56,10 +56,7 @@ Further necessary configuration and settings are dependent on the specific sampl
 |===
 
 == Download and Installation
-To download and install the samples just clone this repository via:
-```
-git clone https://github.com/SAP/enterprise-messaging-client-java-samples
-```
+To download and install the samples just clone this repository via `git clone`
 
 For details on how to configure and run the samples please take a look into the README in the corresponding samples directory.
 
@@ -71,9 +68,9 @@ This section describes the usage of the client without any sample application. I
 
 Three different dependencies are needed:
 
-. the enterprise-messaging spring service connector which provides the `MessagingService`
-. the enterprise-messaging core which creates the connection factory
-. the enterprise-messaging JMS extension which provides the `MessagingServiceJmsConnectionFactory`
+. the emjapi spring service connector which provides the `MessagingService`
+. the emjapi core which creates the connection factory
+. the emjapi JMS extension which provides the `MessagingServiceJmsConnectionFactory`
 
 ```xml
 <dependency>
