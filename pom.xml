@@ -9,8 +9,8 @@
     <version>2.0.0</version>
     <packaging>pom</packaging>
 
-    <name>SAP CP EM: Several samples for Java client</name>
-    <description>SAP Cloud Platform Enterprise Messaging - Java Client - Several samples to run with or on SAP Cloud Platform</description>
+    <name>SAP BTP EM: Several samples for Java client</name>
+    <description>SAP Event Mesh - Java Client - Several samples to run with or on SAP Business Technology Platform</description>
 
     <licenses>
         <license>
