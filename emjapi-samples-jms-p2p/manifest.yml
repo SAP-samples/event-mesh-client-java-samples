@@ -6,6 +6,6 @@ applications:
   path: target/emjapi-samples-jms-p2p.jar
   random-route: false
   services:
-    # This must point to an existing `enterprise messaging` service instance
+    # This must point to an existing `enterprise-messaging` service instance
     # - emjapi-samples-sapcp
     - xbem-sample

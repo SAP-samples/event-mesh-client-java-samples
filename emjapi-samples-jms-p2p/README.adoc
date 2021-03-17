@@ -1,7 +1,7 @@
-= SAP Enterprise Messaging JMS: Point to Point
+= SAP Event Mesh JMS: Point to Point
 :toc:
 
-Sample application (plain Java) of how to use the JMS client to send and receive messages via SAP Cloud Platform Enterprise Messaging.
+Sample application (plain Java) of how to use the JMS client to send and receive messages via SAP Event Mesh.
 
 == Prerequisites
 
@@ -9,12 +9,12 @@ Sample application (plain Java) of how to use the JMS client to send and receive
   * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
   * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
   * Optional: Installed Postman
-  * A _SAP CP_ Account with `Enterprise Messaging Service` is required. +
-    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP help page].
+  * A _SAP BTP_ Account with `Event Mesh Service` is required. +
+    For more detailed information and help on how to start with _SAP Event Mesh_ please check the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP help page].
     ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
     *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`.
-    ** Created Enterprise Messaging Instance 
-    *** e.g. via cli: `cf cs enterprise-messaging default emjapi-samples-sapcp -c` link:./config/[`emjapi-samples-jms-p2p/config`]
+    ** Created Event Mesh Service Instance 
+    *** e.g. via cli: `cf cs enterprise-messaging default emjapi-samples-sapbtp -c` link:./config/[`emjapi-samples-jms-p2p/config`]
     *** The Service Descriptors can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here]
 	*** Remember to adjust the manifest file of the application
     ** Create queues (e.g. `NameOfQueue`) via e.g.     link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/57af1bd4e8f54b0a9b36414a5ec6b800.html?q=messaging%20management[MM API],
@@ -109,7 +109,7 @@ The MM API documentation can be found link:https://help.sap.com/doc/75c9efd00fc1
 The MM APIs have to be enabled in the service descriptor. A description for enabling the MM API can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here].
 
 == Creation of queues with the UI
-Queues can be created through the SAP Cloud Platform Cockpit UI.
+Queues can be created through the SAP Business Technology Platform Cockpit UI.
 More information regarding the creation of queues through the UI can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/57af1bd4e8f54b0a9b36414a5ec6b800.html[here]
 
 == Service Descriptor

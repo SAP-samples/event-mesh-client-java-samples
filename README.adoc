@@ -1,14 +1,17 @@
-= Messaging Client Java - Samples for Enterprise Messaging
+= Messaging Client Java - Samples for SAP Event Mesh
 
 image:https://api.reuse.software/badge/github.com/SAP-samples/enterprise-messaging-client-java-samples["REUSE status", link="https://api.reuse.software/info/github.com/SAP-samples/enterprise-messaging-client-java-samples"]
 
+== Note
+The SAP Cloud Platform Enterprise Messaging service has been renamed to SAP Event Mesh - find more information in this link:https://blogs.sap.com/2021/02/22/please-welcome-sap-event-mesh-new-name-for-sap-cloud-platform-enterprise-messaging/[blog article].
+
 == Description
-SAP Cloud Platform Enterprise Messaging provides a cloud-based messaging framework for the development of decoupled and resilient services and integration flows (using SAP Cloud Integration) to support asynchronous communication principles.
+SAP Event Mesh provides a cloud-based messaging framework for the development of decoupled and resilient services and integration flows (using SAP Cloud Integration) to support asynchronous communication principles.
 Direct integration with SAP S/4HANA Business Event Handling allows efficient development of innovative and scaling extensions.
 
-This sample demonstrates Enterprise Messaging with Java, using combinations of vanilla Java, Spring, and JMS. Details on each sample application and the covered scenario are described in the table _List of sample projects_ below.
+This sample demonstrates Event Mesh with Java, using combinations of vanilla Java, Spring, and JMS. Details on each sample application and the covered scenario are described in the table _List of sample projects_ below.
 
-For more details of **SAP Cloud Platform Enterprise Messaging** take a look at the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP Cloud Platform Enterprise Messaging on SAP Help portal].
+For more details of **SAP Event Mesh** take a look at the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP Event Mesh on SAP Help portal].
 
 
 == Requirements
@@ -18,12 +21,12 @@ Further necessary configuration and settings are dependent on the specific sampl
   * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
   * Installed _Git_ -> link:https://git-scm.com/downloads[Git download]
   * Installed _Maven 3.x_ -> link:https://maven.apache.org/download.cgi[Maven download]
-  * A _SAP CP_ Account with `Enterprise Messaging Service` is required. +
-    For more detailed information and help on how to start with _SAP Cloud Platform Enterprise Messaging_ please check the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP help page].
+  * A _SAP BTP_ Account with `Event Mesh Service` is required. +
+    For more detailed information and help on how to start with _SAP Event Mesh_ please check the link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/df532e8735eb4322b00bfc7e42f84e8d.html[SAP help page].
     ** Optional: Installed _CloudFoundry CLI_ -> link:https://docs.cloudfoundry.org/cf-cli/install-go-cli.html[Installing the cf CLI] 
     *** This must be also fully configured with the corresponding Cloud Foundry landscape to be able to do a `cf push`
-    ** Created Enterprise Messaging Instance 
-    *** e.g. via cli: `cf cs enterprise-messaging default emjapi-samples-sapcp -c` link:./emjapi-samples-jms-p2p/config/[`<contents of default descriptor>`]
+    ** Created Event Mesh Service Instance 
+    *** e.g. via cli: `cf cs enterprise-messaging default emjapi-samples-sapbtp -c` link:./emjapi-samples-jms-p2p/config/[`<contents of default descriptor>`]
     *** The Service Descriptors can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here]
     *** Remember to adjust the manifest file of the application
     *** Include the ability to create required queues (e.g. `NameOfQueue`) and queue subscriptions (e.g. `NameOfTopic`) via e.g. 
@@ -43,20 +46,17 @@ Further necessary configuration and settings are dependent on the specific sampl
 |Scenario Description
 
 |link:./emjapi-samples-jms-p2p[`emjapi-samples-jms-p2p`]
-|Application for Enterprise Messaging based on Spring Web running on SAP Cloud Platform (@ CloudFoundry (with Enterprise Messaging Service)).
-|This sample demonstrates how messages can be send and received from a SAP CP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via a queue (or queues) of choice. The REST endpoints are provided via the `MessagingServiceRestController`.
+|Application for Event Mesh based on Spring Web running on SAP Business Technology Platform (@ CloudFoundry (with Event Mesh Service)).
+|This sample demonstrates how messages can be send and received from a SAP BTP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via a queue (or queues) of choice. The REST endpoints are provided via the `MessagingServiceRestController`.
 
 |link:./emjapi-samples-jms-pubsub[`emjapi-samples-jms-pubsub`]
-|Application for Enterprise Messaging based on Spring Web running on SAP Cloud Platform (@ CloudFoundry (with Enterprise Messaging Service)).
-|This sample demonstrates how messages can be send and received from a topic from a SAP CP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via a topic of choice. It also offers a REST endpoint to receive a message from a queue. The REST endpoints are provided via the `MessagingServiceRestController`.
+|Application for Event Mesh based on Spring Web running on SAP Business Technology Platform (@ CloudFoundry (with Event Mesh Service)).
+|This sample demonstrates how messages can be send and received from a topic from a SAP BTP deployed application. Therefore the messaging sample provides a _Spring Boot_ based application which provides REST endpoints for _send_ and _receive_ messages via a topic of choice. It also offers a REST endpoint to receive a message from a queue. The REST endpoints are provided via the `MessagingServiceRestController`.
 
 |===
 
 == Download and Installation
-To download and install the samples just clone this repository via:
-```
-git clone https://github.com/SAP/enterprise-messaging-client-java-samples
-```
+To download and install the samples just clone this repository via `git clone`
 
 For details on how to configure and run the samples please take a look into the README in the corresponding samples directory.
 
@@ -68,9 +68,9 @@ This section describes the usage of the client without any sample application. I
 
 Three different dependencies are needed:
 
-. the enterprise-messaging spring service connector which provides the `MessagingService`
-. the enterprise-messaging core which creates the connection factory
-. the enterprise-messaging JMS extension which provides the `MessagingServiceJmsConnectionFactory`
+. the emjapi spring service connector which provides the `MessagingService`
+. the emjapi core which creates the connection factory
+. the emjapi JMS extension which provides the `MessagingServiceJmsConnectionFactory`
 
 ```xml
 <dependency>
@@ -131,7 +131,7 @@ The MM API documentation can be found link:https://help.sap.com/doc/75c9efd00fc1
 The MM APIs have to be enabled in the service descriptor. A description for enabling the MM API can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here].
 
 == Creation of queues with the UI
-Queues can be created through the SAP Cloud Platform Cockpit UI.
+Queues can be created through the SAP Business Technology Platform Cockpit UI.
 More information regarding the creation of queues through the UI can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/57af1bd4e8f54b0a9b36414a5ec6b800.html[here]
 
 == Service Descriptor
