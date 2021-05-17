@@ -40,7 +40,7 @@ public class MessagingServiceRestController {
 
     private static final String QUEUE_PREFIX = "queue:"; // mandatory prefix for connection to a queue. Note that you must not create a queue on the broker with this prefix
 
-    private MessagingServiceJmsConnectionFactory connectionFactory;
+    private final MessagingServiceJmsConnectionFactory connectionFactory;
 
     @Autowired
     private MessagingServiceRestController(MessagingServiceJmsConnectionFactory messagingServiceJmsConnectionFactory) {
