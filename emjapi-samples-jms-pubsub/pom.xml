@@ -33,7 +33,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <version.xbem.client>2.0.1</version.xbem.client>
+        <version.xbem.client>2.2.1-SNAPSHOT</version.xbem.client>
     </properties>
 
     <dependencies>
