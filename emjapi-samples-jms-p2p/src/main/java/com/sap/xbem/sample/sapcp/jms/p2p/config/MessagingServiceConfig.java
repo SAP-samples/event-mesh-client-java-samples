@@ -44,12 +44,9 @@ public class MessagingServiceConfig {
             settings.setAmqpIdleTimeout(-1);
 
             // Custom provided authentication request, it is not mandatory. Emjapi can requests token from the client info.
-            settings.setTokenRequest(TokenRequest::requestToken);
+            settings.setAuthenticationRequest(TokenRequest::requestToken);
 
-            MessagingServiceJmsConnectionFactory connectionFactory = messagingServiceFactory
-                    .createConnectionFactory(MessagingServiceJmsConnectionFactory.class, settings);
-            connectionFactory.setTokenRequest(TokenRequest::requestToken);
-            return connectionFactory;
+            return messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class, settings);
         } catch (MessagingException e) {
             throw new IllegalStateException("Unable to create the Connection Factory", e);
         }
