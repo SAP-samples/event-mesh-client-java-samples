@@ -1,11 +1,11 @@
 ---
 # Default Manifest with single input for sample
 applications:
-- name: emjapi-samples-jms-pubsub-d073170
+- name: emjapi-samples-jms-pubsub
   memory: 768M
   path: target/emjapi-samples-jms-pubsub.jar
   random-route: false
   services:
     # This must point to an existing `enterprise-messaging` service instance
     # - emjapi-samples-sapcp
-    - firstTest
+    - xbem-sample

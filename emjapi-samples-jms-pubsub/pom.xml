@@ -15,8 +15,8 @@
     <version>2.0.0</version>
     <packaging>jar</packaging>
 
-    <name>SAP CP EM: Basic p2p sample app with JMS ext.</name>
-    <description>SAP Cloud Platform Enterprise Messaging - Java Client - Basic Sample application with JMS extension</description>
+    <name>SAP BTP EM: Basic p2p sample app with JMS ext.</name>
+    <description>SAP Event Mesh - Java Client - Basic Sample application with JMS extension</description>
 
     <licenses>
         <license>
