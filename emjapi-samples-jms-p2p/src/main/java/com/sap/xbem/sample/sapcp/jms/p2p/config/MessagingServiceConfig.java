@@ -1,17 +1,16 @@
 package com.sap.xbem.sample.sapcp.jms.p2p.config;
 
-import org.springframework.cloud.Cloud;
-import org.springframework.cloud.CloudFactory;
-import org.springframework.cloud.service.ServiceConnectorConfig;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.sap.cloud.servicesdk.xbem.core.MessagingService;
 import com.sap.cloud.servicesdk.xbem.core.MessagingServiceFactory;
 import com.sap.cloud.servicesdk.xbem.core.exception.MessagingException;
 import com.sap.cloud.servicesdk.xbem.core.impl.MessagingServiceFactoryCreator;
 import com.sap.cloud.servicesdk.xbem.extension.sapcp.jms.MessagingServiceJmsConnectionFactory;
 import com.sap.cloud.servicesdk.xbem.extension.sapcp.jms.MessagingServiceJmsSettings;
+import org.springframework.cloud.Cloud;
+import org.springframework.cloud.CloudFactory;
+import org.springframework.cloud.service.ServiceConnectorConfig;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MessagingServiceConfig {
@@ -38,9 +37,16 @@ public class MessagingServiceConfig {
              * time of 5 minutes.
              */
             MessagingServiceJmsSettings settings = new MessagingServiceJmsSettings();
-            settings.setMaxReconnectAttempts(5); // use -1 for unlimited attempts
-            settings.setInitialReconnectDelay(3000);
-            settings.setReconnectDelay(3000);
+            settings.setFailoverMaxReconnectAttempts(5); // use -1 for unlimited attempts
+            settings.setFailoverInitialReconnectDelay(3000);
+            settings.setFailoverReconnectDelay(3000);
+            settings.setJmsRequestTimeout(30000);
+            settings.setAmqpIdleTimeout(-1);
+
+            // Custom provided authentication request, it is not mandatory. Emjapi can requests token from the client info.
+            TokenRequest tokenRequest = new TokenRequest();
+            settings.setAuthenticationRequest(tokenRequest::requestToken);
+
             return messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class, settings);
         } catch (MessagingException e) {
             throw new IllegalStateException("Unable to create the Connection Factory", e);

@@ -48,12 +48,13 @@ The point to point (p2p) sample is a small spring boot (version 2.0.6) applicati
   
 === Code Snippets
 
-```java
+[source,java]
+----
 ServiceConnectorConfig config = null; // currently there are no configurations for the MessagingServiceFactory supported
 Cloud cloud = new CloudFactory().getCloud();
 // get a messaging service factory via the service connector
 MessagingService messagingService = cloud.getSingletonServiceConnector(MessagingService.class, config);
-```
+----
 
 Create a the `MessagingServiceFactory` object with the help of the `MessagingServiceFactoryCreator` and get a `MessagingServiceJmsConnectionFactory`.
 The Connection Factory can be configured with the `MessagingServiceJmsSettings`. In case the reconnection feature is not needed and an individual 
