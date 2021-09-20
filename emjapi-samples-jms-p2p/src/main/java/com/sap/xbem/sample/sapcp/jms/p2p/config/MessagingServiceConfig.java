@@ -1,30 +1,29 @@
 package com.sap.xbem.sample.sapcp.jms.p2p.config;
 
-import com.sap.cloud.servicesdk.xbem.core.MessagingService;
 import com.sap.cloud.servicesdk.xbem.core.MessagingServiceFactory;
 import com.sap.cloud.servicesdk.xbem.core.exception.MessagingException;
 import com.sap.cloud.servicesdk.xbem.core.impl.MessagingServiceFactoryCreator;
 import com.sap.cloud.servicesdk.xbem.extension.sapcp.jms.MessagingServiceJmsConnectionFactory;
 import com.sap.cloud.servicesdk.xbem.extension.sapcp.jms.MessagingServiceJmsSettings;
-import org.springframework.cloud.Cloud;
-import org.springframework.cloud.CloudFactory;
-import org.springframework.cloud.service.ServiceConnectorConfig;
+import io.pivotal.cfenv.core.CfCredentials;
+import io.pivotal.cfenv.core.CfEnv;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Map;
 
 @Configuration
 public class MessagingServiceConfig {
 
     @Bean
     public MessagingServiceFactory getMessagingServiceFactory() {
-        ServiceConnectorConfig config = null; // currently there are no configurations for the MessagingService supported
-        Cloud cloud = new CloudFactory().getCloud();
-        // get the MessagingService via the service connector
-        MessagingService messagingService = cloud.getSingletonServiceConnector(MessagingService.class, config);
-        if (messagingService == null) {
+        CfEnv cfEnv = new CfEnv();
+        CfCredentials cfCredentials = cfEnv.findCredentialsByName("secondTest");
+        Map<String, Object> credentials = cfCredentials.getMap();
+        if (credentials == null) {
             throw new IllegalStateException("Unable to create the MessagingService.");
         }
-        return MessagingServiceFactoryCreator.createFactory(messagingService);
+        return MessagingServiceFactoryCreator.createFactoryFromCredentials(credentials);
     }
 
     @Bean
@@ -43,9 +42,9 @@ public class MessagingServiceConfig {
             settings.setJmsRequestTimeout(30000);
             settings.setAmqpIdleTimeout(-1);
 
-            // Custom provided authentication request, it is not mandatory. Emjapi can requests token from the client info.
-            TokenRequest tokenRequest = new TokenRequest();
-            settings.setAuthenticationRequest(tokenRequest::requestToken);
+            // Custom provided authentication request, it is not mandatory. Emjapi can request token from the client info.
+            //TokenRequest tokenRequest = new TokenRequest();
+            //settings.setAuthenticationRequest(tokenRequest::requestToken);
 
             return messagingServiceFactory.createConnectionFactory(MessagingServiceJmsConnectionFactory.class, settings);
         } catch (MessagingException e) {
