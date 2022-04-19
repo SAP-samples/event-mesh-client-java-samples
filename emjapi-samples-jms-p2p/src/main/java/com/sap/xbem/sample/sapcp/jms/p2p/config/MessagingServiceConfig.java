@@ -18,7 +18,7 @@ public class MessagingServiceConfig {
     @Bean
     public MessagingServiceFactory getMessagingServiceFactory() {
         CfEnv cfEnv = new CfEnv();
-        CfCredentials cfCredentials = cfEnv.findCredentialsByName("secondTest");
+        CfCredentials cfCredentials = cfEnv.findCredentialsByName("<event-mesh-service-instance-name>");
         Map<String, Object> credentials = cfCredentials.getMap();
         if (credentials == null) {
             throw new IllegalStateException("Unable to create the MessagingService.");
