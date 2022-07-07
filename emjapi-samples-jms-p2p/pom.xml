@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.6.RELEASE</version>
+        <version>2.6.4</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.sap.cloud.samples.servicesdk.xbem</groupId>
     <artifactId>emjapi-samples-jms-p2p</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <packaging>jar</packaging>
 
     <name>SAP BTP EM: Basic p2p sample app with JMS ext.</name>
@@ -33,18 +33,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <version.pivotal.cf.env>2.1.1.RELEASE</version.pivotal.cf.env>
-        <version.xbem.client>2.2.6</version.xbem.client>
+        <version.pivotal.cf.env>2.4.0</version.pivotal.cf.env>
+        <version.xbem.client>2.4.0</version.xbem.client>
     </properties>
 
     <dependencies>
         <!-- Messaging client related dependencies -->
-        <dependency>
-            <groupId>com.sap.cloud.servicesdk.xbem</groupId>
-            <artifactId>emjapi-connector-sap-cp</artifactId>
-            <version>${version.xbem.client}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.sap.cloud.servicesdk.xbem</groupId>
             <artifactId>emjapi-core</artifactId>

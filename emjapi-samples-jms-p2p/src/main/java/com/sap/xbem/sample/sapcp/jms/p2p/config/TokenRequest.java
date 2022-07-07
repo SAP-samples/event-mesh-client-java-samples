@@ -2,8 +2,8 @@ package com.sap.xbem.sample.sapcp.jms.p2p.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sap.cloud.servicesdk.xbem.core.MessagingService;
-import org.springframework.cloud.Cloud;
-import org.springframework.cloud.CloudFactory;
+import io.pivotal.cfenv.core.CfCredentials;
+import io.pivotal.cfenv.core.CfEnv;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -16,8 +16,10 @@ public class TokenRequest {
     private final MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
 
     public TokenRequest() {
-        Cloud cloud = new CloudFactory().getCloud();
-        MessagingService messagingServiceClientInfo = cloud.getSingletonServiceConnector(MessagingService.class, null);
+        CfEnv cfEnv = new CfEnv();
+        CfCredentials cfCredentials = cfEnv.findCredentialsByName("<event-mesh-service-instance-name>");
+        MessagingService messagingServiceClientInfo = new MessagingService.MessagingServiceBuilder().fromCredentials(cfCredentials.getMap()).build();
+
         String endpoint = messagingServiceClientInfo.getOAuthTokenEndpoint();
         String clientId = messagingServiceClientInfo.getClientId();
         String clientSecret = messagingServiceClientInfo.getClientSecret();
