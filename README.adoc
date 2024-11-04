@@ -138,10 +138,10 @@ More information regarding the creation of queues through the UI can be found li
 Examples for the different service descriptors can be found link:https://help.sap.com/viewer/bf82e6b26456494cbdd197057c09979f/Cloud/en-US/d0483a9e38434f23a4579d6fcc72654b.html[here] on the help site
 and in the config folder of this project.
 
-== Support
+== Contributing
 This project is _'as-is'_ with no support, no changes being made. +
 You are welcome to make changes to improve it but we are not available for questions or support of any kind.
 
-== License
+== Licensing
 Copyright (c) 2024 SAP SE or an SAP affiliate company. All rights reserved. +
 This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the link:./LICENSES/Apache-2.0.txt[LICENSE file].
