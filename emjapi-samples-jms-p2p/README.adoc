@@ -3,6 +3,8 @@
 
 Sample application (plain Java) of how to use the JMS client to send and receive messages via SAP Event Mesh.
 
+WARNING: The REST endpoints in this sample (`POST /queue/{queueName}/message`, `GET /queue/{queueName}/message`) have *no authentication or authorization*. This is intentional to keep the sample minimal and focused on the messaging concepts. *Do not deploy this sample to a publicly reachable route without first adding authentication*. Any anonymous caller that can reach the application URL can publish or consume messages using the application's bound Event Mesh credentials.
+
 == Prerequisites
 
   * Installed _Java 8_ -> link:https://java.com/de/download/[Java download]
